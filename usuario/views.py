@@ -6,13 +6,6 @@ from rest_framework import status
 from rest_framework.permissions import AllowAny
 from .models import Usuario
 from .serializers import UsuarioSerializer
-from django.shortcuts import get_object_or_404
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status
-from rest_framework.permissions import AllowAny
-from .models import Usuario
-from .serializers import UsuarioSerializer
 
 # Create your views here.
 
@@ -32,7 +25,6 @@ class CreateUsuario(APIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         
-<<<<<<< HEAD
         return Response(serializer.data, status=status.HTTP_200_OK)
     
 
@@ -41,6 +33,3 @@ class CreateUsuario(APIView):
         usuario_obj.status=False
         usuario_obj.save()
         return Response({'message':'Eliminado'}, status=status.HTTP_204_NO_CONTENT)
-=======
-        return Response(serializer.data, status=status.HTTP_200_OK)
->>>>>>> editarusuario
