@@ -16,7 +16,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from usuario.views import CreateUsuario
+from logro.views import LogroView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('put/', CreateUsuario.as_view(), name='CreateUsuario'),
+    path('put/', CreateUsuario.as_view(), name='CreateUsuario'),
+    path('delete/<int:usuario_id>', CreateUsuario.as_view(), name='DeleteUsuario'),
+
+    path('put/logro', LogroView.as_view(), name='Crear logro'),
+
 ]
