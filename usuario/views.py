@@ -25,6 +25,7 @@ class CreateUsuario(APIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         
+<<<<<<< HEAD
         return Response(serializer.data, status=status.HTTP_200_OK)
     
 
@@ -33,3 +34,6 @@ class CreateUsuario(APIView):
         usuario_obj.status=False
         usuario_obj.save()
         return Response({'message':'Eliminado'}, status=status.HTTP_204_NO_CONTENT)
+=======
+        return Response(serializer.data, status=status.HTTP_200_OK)
+>>>>>>> editarusuario

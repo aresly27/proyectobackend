@@ -23,7 +23,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('put/', CreateUsuario.as_view(), name='CreateUsuario'),
     path('put/<int:usuario_id>', CreateUsuario.as_view(), name='UpdateUsuario'),
+<<<<<<< HEAD
     path('delete/<int:usuario_id>', CreateUsuario.as_view(), name='DeleteUsuario'),
 
+=======
+>>>>>>> editarusuario
 
 ]
