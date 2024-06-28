@@ -16,3 +16,11 @@ class LogroView(APIView):
         serializer.save()
         
         return Response({'message':'Creado'}, status=status.HTTP_201_CREATED)
+    
+    def put(self, request, logro_id):
+        logro_obj = get_object_or_404(Logro, id=logro_id)
+        serializer = LogroSerializer(instance=logro_obj, data=request.data, partial=True )
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        
+        return Response(serializer.data, status=status.HTTP_200_OK)
