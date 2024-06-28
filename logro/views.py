@@ -30,3 +30,9 @@ class LogroView(APIView):
             serializer = LogroSerializer(lista_list, many=True)
             
             return Response(serializer.data)
+        
+    def delete(self, request, logro_id):
+        logro_obj = get_object_or_404(Logro, pk=logro_id)
+        logro_obj.status=False
+        logro_obj.save()
+        return Response({'message':'Eliminado'}, status=status.HTTP_204_NO_CONTENT)
