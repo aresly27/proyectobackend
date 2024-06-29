@@ -32,6 +32,7 @@ urlpatterns = [
     
     path('post/logro/', LogroCreateView.as_view(), name='CreateLogro'),
     path('put/logro/<int:logro_id>', EditLogro.as_view(), name='UpdateLogro'),
+    path('delete/logro/<int:logro_id>', EditLogro.as_view(), name='DeleteLogro'),
     
 
 
