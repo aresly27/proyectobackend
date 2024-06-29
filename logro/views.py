@@ -16,3 +16,5 @@ class LogroView(APIView):
         serializer.save()
         
         return Response({'message':'Creado'}, status=status.HTTP_201_CREATED)
+    
+    
