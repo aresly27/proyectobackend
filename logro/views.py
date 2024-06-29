@@ -3,9 +3,10 @@ from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from .models import Logro
 from .serializers import LogroSerializer
+
 
 class LogroCreateView(APIView):
     permission_classes = (AllowAny,)
@@ -17,4 +18,15 @@ class LogroCreateView(APIView):
         
         return Response({'message':'Creado'}, status=status.HTTP_201_CREATED)
     
+class EditLogro(APIView):
+    #permission_classes = [IsAuthenticated]
+    permission_classes = (AllowAny,)
+
+    def put(self, request, logro_id):
+        logro_obj = get_object_or_404(Logro, id=logro_id)
+        serializer = LogroSerializer(instance=logro_obj, data=request.data, partial=True )
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        
+        return Response(serializer.data, status=status.HTTP_200_OK)
     
