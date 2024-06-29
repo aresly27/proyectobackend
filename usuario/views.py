@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from .models import Usuario
 from .serializers import UsuarioSerializer
 from rest_framework.authtoken.models import Token
@@ -42,6 +42,9 @@ class CreateUsuario(APIView):
         #     return Response(serializer.data, status=status.HTTP_201_CREATED)
         # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class EditUsuario(APIView):
+    permission_classes = [IsAuthenticated]
+
     def put(self, request, usuario_id):
         usuario_obj = get_object_or_404(Usuario, id=usuario_id)
         serializer = UsuarioSerializer(instance=usuario_obj, data=request.data, partial=True )
@@ -53,7 +56,7 @@ class CreateUsuario(APIView):
 
     def delete(self, request, usuario_id):
         usuario_obj = get_object_or_404(Usuario, pk=usuario_id)
-        usuario_obj.status=False
+        usuario_obj.is_active=False
         usuario_obj.save()
         return Response({'message':'Eliminado'}, status=status.HTTP_204_NO_CONTENT)
 
@@ -72,3 +75,12 @@ class LoginView(APIView):
         serializer = UsuarioSerializer(instance=user)
 
         return Response({'token':token.key, 'user': serializer.data}, status=status.HTTP_200_OK)
+    
+class LoginAuth(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def get(self, request):
+        data = request.data
+        response = {"mensaje":"Usuario autenticado",
+                    }
+        return Response(response)
