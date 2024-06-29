@@ -16,18 +16,18 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from usuario.views import CreateUsuario
-from logro.views import LogroView
+from usuario.views import CreateUsuario, LoginView
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    
+    path('login/', LoginView.as_view(), name='Login'),
+    
     path('put/', CreateUsuario.as_view(), name='CreateUsuario'),
     path('put/<int:usuario_id>', CreateUsuario.as_view(), name='UpdateUsuario'),
     path('delete/<int:usuario_id>', CreateUsuario.as_view(), name='DeleteUsuario'),
     
-    path('put/logro', LogroView.as_view(), name='Crear logro'),
-    path('put/logro/<int:logro_id>', LogroView.as_view(), name='UpdateLogro'),
-    path('get/logro', LogroView.as_view(), name='Listar logro'),
-    path('delete/logro/<int:logro_id>', LogroView.as_view(), name='DeleteLogro'),
+
 
 ]

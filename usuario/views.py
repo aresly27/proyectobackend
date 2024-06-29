@@ -6,18 +6,41 @@ from rest_framework import status
 from rest_framework.permissions import AllowAny
 from .models import Usuario
 from .serializers import UsuarioSerializer
+from rest_framework.authtoken.models import Token
+from rest_framework.exceptions import ValidationError
+from django.contrib.auth import get_user_model
+
 
 # Create your views here.
 
+User = get_user_model()
 class CreateUsuario(APIView):
     permission_classes = (AllowAny,)
     def post(self, request):
         data = request.data
-        serializer = UsuarioSerializer(data=data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
+        email = data.get('email')
+        print("Request Data:", data)
         
-        return Response({'message':'Creado'}, status=status.HTTP_201_CREATED)
+        if Usuario.objects.filter(email=email).exists():
+            return Response({"error": "Ya existe un usuario con este email."}, status=status.HTTP_400_BAD_REQUEST)
+        
+        serializer = UsuarioSerializer(data=data)
+
+        if serializer.is_valid():
+            user = serializer.save()
+            token, created = Token.objects.get_or_create(user=user)
+            print("Token Created:", token.key)
+            response = {
+                'success':True,
+                'user':serializer.data,
+                'token':token.key
+            }
+            return Response(response, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+        #     return Response(serializer.data, status=status.HTTP_201_CREATED)
+        # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def put(self, request, usuario_id):
         usuario_obj = get_object_or_404(Usuario, id=usuario_id)
@@ -33,3 +56,19 @@ class CreateUsuario(APIView):
         usuario_obj.status=False
         usuario_obj.save()
         return Response({'message':'Eliminado'}, status=status.HTTP_204_NO_CONTENT)
+
+
+class LoginView(APIView):
+    permission_classes = (AllowAny,)
+    def post(self, request):
+        data = request.data
+        
+        user = get_object_or_404(Usuario, email=data['email'])
+        
+        if not user.check_password(data['password']):
+            return Response({'error':'Contraseña incorrecta'}, status=status.HTTP_400_BAD_REQUEST)
+
+        token, created = Token.objects.get_or_create(user=user)
+        serializer = UsuarioSerializer(instance=user)
+
+        return Response({'token':token.key, 'user': serializer.data}, status=status.HTTP_200_OK)
