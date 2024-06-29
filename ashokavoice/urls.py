@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from usuario.views import CreateUsuario, EditUsuario, LoginView, LoginAuth
+from logro.views import LogroCreateView
 
 
 urlpatterns = [
@@ -28,6 +29,8 @@ urlpatterns = [
     path('put/', CreateUsuario.as_view(), name='CreateUsuario'),
     path('put/<int:usuario_id>', EditUsuario.as_view(), name='UpdateUsuario'),
     path('delete/<int:usuario_id>', EditUsuario.as_view(), name='DeleteUsuario'),
+    
+    path('post/logro/', LogroCreateView.as_view(), name='CreateLogro'),
     
 
 

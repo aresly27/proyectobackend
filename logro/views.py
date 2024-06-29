@@ -7,7 +7,7 @@ from rest_framework.permissions import AllowAny
 from .models import Logro
 from .serializers import LogroSerializer
 
-class LogroView(APIView):
+class LogroCreateView(APIView):
     permission_classes = (AllowAny,)
     def post(self, request):
         data = request.data
