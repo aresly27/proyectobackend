@@ -3,11 +3,12 @@ from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from .models import Logro
 from .serializers import LogroSerializer
 
-class LogroView(APIView):
+
+class LogroCreateView(APIView):
     permission_classes = (AllowAny,)
     def post(self, request):
         data = request.data
@@ -17,6 +18,10 @@ class LogroView(APIView):
         
         return Response({'message':'Creado'}, status=status.HTTP_201_CREATED)
     
+class EditLogro(APIView):
+    #permission_classes = [IsAuthenticated]
+    permission_classes = (AllowAny,)
+
     def put(self, request, logro_id):
         logro_obj = get_object_or_404(Logro, id=logro_id)
         serializer = LogroSerializer(instance=logro_obj, data=request.data, partial=True )
@@ -24,15 +29,4 @@ class LogroView(APIView):
         serializer.save()
         
         return Response(serializer.data, status=status.HTTP_200_OK)
-
-    def get(self,request):
-            lista_list = Logro.objects.all()
-            serializer = LogroSerializer(lista_list, many=True)
-            
-            return Response(serializer.data)
-        
-    def delete(self, request, logro_id):
-        logro_obj = get_object_or_404(Logro, pk=logro_id)
-        logro_obj.status=False
-        logro_obj.save()
-        return Response({'message':'Eliminado'}, status=status.HTTP_204_NO_CONTENT)
+    
