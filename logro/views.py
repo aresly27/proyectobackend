@@ -30,3 +30,8 @@ class EditLogro(APIView):
         
         return Response(serializer.data, status=status.HTTP_200_OK)
     
+    def delete(self, request, logro_id):
+        logro_obj = get_object_or_404(Logro, pk=logro_id)
+        logro_obj.status=False
+        logro_obj.save()
+        return Response({'message':'Eliminado'}, status=status.HTTP_204_NO_CONTENT)
