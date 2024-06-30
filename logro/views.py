@@ -22,8 +22,7 @@ class LogroCreateView(APIView):
         return Response({'message':'Creado'}, status=status.HTTP_201_CREATED)
     
 class EditLogro(APIView):
-    #permission_classes = [IsAuthenticated]
-    permission_classes = (AllowAny,)
+    permission_classes = [IsAuthenticated]
 
     def put(self, request, logro_id):
         logro_obj = get_object_or_404(Logro, id=logro_id)
@@ -40,10 +39,11 @@ class EditLogro(APIView):
         return Response({'message':'Eliminado'}, status=status.HTTP_204_NO_CONTENT)
 
     def get(self,request):
-            lista_list = Logro.objects.all()
-            serializer = LogroSerializer(lista_list, many=True)
-            
-            return Response(serializer.data)
+        #lista_list = Logro.objects.all()
+        lista_list = Logro.objects.filter(user_id=request.user)
+        serializer = LogroSerializer(lista_list, many=True)
+        
+        return Response(serializer.data)
 
 class RandomLogro(APIView):
     permission_classes = [IsAuthenticated]
