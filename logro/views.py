@@ -75,3 +75,6 @@ class RandomLogro(APIView):
             "user_logro": user_logro_data,
             "other_logros": other_logros_data
         })
+        
+        
+        
