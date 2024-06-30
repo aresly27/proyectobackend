@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from usuario.views import CreateUsuario, EditUsuario, LoginView, LoginAuth, CambiarPassword
-from logro.views import LogroCreateView, EditLogro, RandomLogro, OcultarLogro
+from logro.views import LogroCreateView, EditLogro, RandomLogro, OcultarLogro, DownloadLogro
 from like.views import LikeCreateView, VerLike
 
 urlpatterns = [
@@ -41,5 +41,7 @@ urlpatterns = [
     path('post/like/', LikeCreateView.as_view(), name='CreateLike'),
     path('delete/like/<int:like_id>', LikeCreateView.as_view(), name='DeleteLike'),
     path('ver/like/', VerLike.as_view(), name='Verlike'),
+    
+    path('download/logro/', DownloadLogro.as_view(), name='DescargarLogro'),
 
 ]
