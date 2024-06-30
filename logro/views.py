@@ -87,3 +87,12 @@ class OcultarLogro(APIView):
         logro_obj.public=False
         logro_obj.save()
         return Response({'message':'Oculto'}, status=status.HTTP_204_NO_CONTENT)
+
+
+class DownloadLogro(APIView):
+    permission_classes = [IsAuthenticated]
+    def get(self, request):
+        data = request.data
+        lista_list = Logro.objects.filter(user_id=request.user, status=True)
+        serializer = LogroSerializer(lista_list, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
