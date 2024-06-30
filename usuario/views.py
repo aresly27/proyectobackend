@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from .models import Usuario
-from .serializers import UsuarioSerializer
+from .serializers import UsuarioSerializer, CambiarPasswordSerializer
 from rest_framework.authtoken.models import Token
 from rest_framework.exceptions import ValidationError
 from django.contrib.auth import get_user_model
@@ -84,3 +84,15 @@ class LoginAuth(APIView):
         response = {"mensaje":"Usuario autenticado",
                     }
         return Response(response)
+    
+
+class CambiarPassword(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def post(self, request):
+        serializer = CambiarPasswordSerializer(data=request.data, context={'request': request})
+        if serializer.is_valid():
+            # Actualizar la contraseña
+            serializer.update(request.user, serializer.validated_data)
+            return Response({"detail": "Contraseña actualizada exitosamente."}, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
