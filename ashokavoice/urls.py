@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from usuario.views import CreateUsuario, EditUsuario, LoginView, LoginAuth
+from usuario.views import CreateUsuario, EditUsuario, LoginView, LoginAuth, CambiarPassword
 from logro.views import LogroCreateView, EditLogro, RandomLogro, OcultarLogro
 
 
@@ -29,6 +29,7 @@ urlpatterns = [
     path('put/', CreateUsuario.as_view(), name='CreateUsuario'),
     path('put/<int:usuario_id>', EditUsuario.as_view(), name='UpdateUsuario'),
     path('delete/<int:usuario_id>', EditUsuario.as_view(), name='DeleteUsuario'),
+    path('password/', CambiarPassword.as_view(), name='CambiarPassword'),
     
     path('post/logro/', LogroCreateView.as_view(), name='CreateLogro'),
     path('put/logro/<int:logro_id>', EditLogro.as_view(), name='UpdateLogro'),
