@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path
 from usuario.views import CreateUsuario, EditUsuario, LoginView, LoginAuth, CambiarPassword
 from logro.views import LogroCreateView, EditLogro, RandomLogro, OcultarLogro
-
+from like.views import LikeCreateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -37,6 +37,8 @@ urlpatterns = [
     path('get/logro/', EditLogro.as_view(), name='ListarLogro'),
     path('get/logros/', RandomLogro.as_view(), name='ListarFeedLogro'),
     path('put/ocultar/logro/<int:logro_id>', OcultarLogro.as_view(), name='OcultarLogro'),
+
+    path('post/like/', LikeCreateView.as_view(), name='CreateLike'),
 
 
 ]
