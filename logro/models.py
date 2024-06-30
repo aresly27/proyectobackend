@@ -14,3 +14,6 @@ class Logro(models.Model):
     
     class Meta:
         db_table = 'logro'
+    
+    def __str__(self):
+        return self.title

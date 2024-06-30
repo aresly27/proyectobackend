@@ -6,6 +6,9 @@ from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from .models import Logro
 from .serializers import LogroSerializer
+from django.http import JsonResponse
+import random
+import json
 
 
 class LogroCreateView(APIView):
@@ -41,4 +44,34 @@ class EditLogro(APIView):
             serializer = LogroSerializer(lista_list, many=True)
             
             return Response(serializer.data)
+
+class RandomLogro(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def get(self, request):
+    
+        user_logros = Logro.objects.filter(user_id=request.user)
+        otros_logros = Logro.objects.exclude(user_id=request.user)
         
+        random_user_logro = random.choice(user_logros) if user_logros.exists() else None
+        random_other_logros = otros_logros.order_by('?')[:10]  # Cambia 10 al número deseado
+        
+        user_logro_data = {
+            "titulo": random_user_logro.titulo,
+            "descripcion": random_user_logro.descripcion,
+            "user": random_user_logro.user_id.username if random_user_logro else None  # Ejemplo de cómo obtener el nombre de usuario
+        } if random_user_logro else {}
+
+        other_logros_data = [
+            {
+                "title": logro.titulo,
+                "description": logro.descripcion,
+                "user": logro.user_id.username            
+            }
+            for logro in random_other_logros
+        ]
+        
+        return Response({
+            "user_logro": user_logro_data,
+            "other_logros": other_logros_data
+        })

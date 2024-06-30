@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from usuario.views import CreateUsuario, EditUsuario, LoginView, LoginAuth
-from logro.views import LogroCreateView, EditLogro
+from logro.views import LogroCreateView, EditLogro, RandomLogro
 
 
 urlpatterns = [
@@ -34,6 +34,7 @@ urlpatterns = [
     path('put/logro/<int:logro_id>', EditLogro.as_view(), name='UpdateLogro'),
     path('delete/logro/<int:logro_id>', EditLogro.as_view(), name='DeleteLogro'),
     path('get/logro/', EditLogro.as_view(), name='ListarLogro'),
+    path('get/logros/', RandomLogro.as_view(), name='ListarFeedLogro'),
 
 
 ]
