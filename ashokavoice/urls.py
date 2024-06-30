@@ -39,6 +39,7 @@ urlpatterns = [
     path('put/ocultar/logro/<int:logro_id>', OcultarLogro.as_view(), name='OcultarLogro'),
 
     path('post/like/', LikeCreateView.as_view(), name='CreateLike'),
+    path('delete/like/<int:like_id>', LikeCreateView.as_view(), name='DeleteLike'),
 
 
 ]

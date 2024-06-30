@@ -17,3 +17,9 @@ class LikeCreateView(APIView):
             like = serializer.save(user=request.user)
             return Response(LikeSerializer(like).data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def delete(self, request, like_id):
+        like_obj = get_object_or_404(Like, pk=like_id)
+        like_obj.status=False
+        like_obj.save()
+        return Response({'message':'Eliminado'}, status=status.HTTP_204_NO_CONTENT)
