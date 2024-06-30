@@ -78,3 +78,12 @@ class RandomLogro(APIView):
         
         
         
+
+class OcultarLogro(APIView):
+    permission_classes = (AllowAny,)
+    
+    def put(self, request, logro_id):
+        logro_obj = get_object_or_404(Logro, pk=logro_id)
+        logro_obj.public=False
+        logro_obj.save()
+        return Response({'message':'Oculto'}, status=status.HTTP_204_NO_CONTENT)
