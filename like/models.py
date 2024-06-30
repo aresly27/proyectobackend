@@ -12,4 +12,5 @@ class Like(models.Model):
     
     class Meta:
         db_table = 'like'
+        unique_together = ('user', 'logro')  # Un usuario puede dar un like a un logro solo una vez
     

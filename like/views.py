@@ -23,3 +23,18 @@ class LikeCreateView(APIView):
         like_obj.status=False
         like_obj.save()
         return Response({'message':'Eliminado'}, status=status.HTTP_204_NO_CONTENT)
+
+
+
+class VerLike(APIView):
+    permission_classes = [IsAuthenticated]
+    def post(self, request):
+        data = request.data
+        logro = data.get('logro')
+        lista_list = Like.objects.filter(user=request.user,logro=logro, status=True)
+        serializer = LikeSerializer(lista_list, many=True)
+        #print(serializer.data)
+        cantidad = len(serializer.data)
+        return Response(cantidad, status=status.HTTP_200_OK)
+
+    
