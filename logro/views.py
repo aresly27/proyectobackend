@@ -51,7 +51,7 @@ class RandomLogro(APIView):
     def get(self, request):
     
         user_logros = Logro.objects.filter(user_id=request.user)
-        otros_logros = Logro.objects.exclude(user_id=request.user)
+        otros_logros = Logro.objects.filter(public=True).exclude(user_id=request.user)
         
         random_user_logro = random.choice(user_logros) if user_logros.exists() else None
         random_other_logros = otros_logros.order_by('?')[:10]  # Cambia 10 al número deseado
@@ -78,3 +78,12 @@ class RandomLogro(APIView):
         
         
         
+
+class OcultarLogro(APIView):
+    permission_classes = (AllowAny,)
+    
+    def put(self, request, logro_id):
+        logro_obj = get_object_or_404(Logro, pk=logro_id)
+        logro_obj.public=False
+        logro_obj.save()
+        return Response({'message':'Oculto'}, status=status.HTTP_204_NO_CONTENT)

@@ -11,6 +11,7 @@ class Logro(models.Model):
     descripcion = models.CharField(verbose_name="Descripcion")
     imagen = models.CharField(max_length=120, verbose_name="Imagen")
     status = models.BooleanField(default=True, verbose_name="Estatus")
+    public = models.BooleanField(default=True, verbose_name="Public")
     
     class Meta:
         db_table = 'logro'
